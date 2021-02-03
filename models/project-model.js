@@ -11,8 +11,8 @@ const ProjectSchema = mongoose.Schema({
   video: {
     href: String,
   },
-  gallery: Array,
-  comments: Array,
+  gallery: [],
+  comments: [],
 });
 
 const Project = mongoose.model("Project", ProjectSchema);
