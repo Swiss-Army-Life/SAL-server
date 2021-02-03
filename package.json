@@ -1,0 +1,26 @@
+{
+  "name": "ls",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Swiss-Army-Life/SAL-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Swiss-Army-Life/SAL-server/issues"
+  },
+  "homepage": "https://github.com/Swiss-Army-Life/SAL-server#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "method-override": "^3.0.0",
+    "mongo": "^0.1.0",
+    "mongoose": "^5.11.14"
+  }
+}
