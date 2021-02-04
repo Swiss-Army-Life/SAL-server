@@ -11,8 +11,20 @@ const ProjectSchema = mongoose.Schema({
   video: {
     href: String,
   },
-  gallery: [],
-  comments: [],
+  gallery: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+
+      ref: "Image",
+    },
+  ],
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+
+      ref: "Comment",
+    },
+  ],
 });
 
 const Project = mongoose.model("Project", ProjectSchema);
