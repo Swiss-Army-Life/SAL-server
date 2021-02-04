@@ -1,6 +1,8 @@
 const express = require("express");
 const projectRouter = express.Router();
 const Projects = require("../models/project-model");
+const Comment = require("../models/comment-model");
+const Image = require("../models/image-model");
 
 // CRUD PROJECT ROUTES
 
@@ -63,6 +65,23 @@ projectRouter.delete("/:id", (req, res, next) => {
     .then(() => Projects.findById({ _id: id }))
     .then((project) => res.json(project))
     .catch(next);
+});
+
+// STRETCH PROJECT ROUTES
+//posting comment to a project page
+projectRouter.post("/usercomment/:id", (req, res) => {
+  const id = req.params.id;
+  Comment.create(req.body)
+    .then((comment) => {
+      Projects.findByIdAndUpdate(
+        { _id: id },
+        { $push: { comments: comment._id } },
+        { new: true, useFindAndModify: false }
+      )
+        .then((project) => project.populate("comments", "-_id -__v"))
+        .catch(console.error);
+    })
+    .catch(console.error);
 });
 
 module.exports = projectRouter;
