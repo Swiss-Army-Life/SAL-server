@@ -14,14 +14,12 @@ const ProjectSchema = mongoose.Schema({
   gallery: [
     {
       type: mongoose.Schema.Types.ObjectId,
-
       ref: "Image",
     },
   ],
   comments: [
     {
       type: mongoose.Schema.Types.ObjectId,
-
       ref: "Comment",
     },
   ],

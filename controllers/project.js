@@ -28,7 +28,7 @@ projectRouter.get("/search/:search", (req, res) => {
     .catch(console.error);
 });
 // create a project
-projectRouter.post("/", (req, res, next) => {
+projectRouter.post("/addproject", (req, res, next) => {
   console.log(req.body);
   Projects.create(req.body)
     .then((project) => {
@@ -54,19 +54,23 @@ projectRouter.delete("/:id", (req, res, next) => {
     .then((project) => res.json(project))
     .catch(next);
 });
+
 // STRETCH PROJECT ROUTES
+// show all comments
 projectRouter.get("/comments", (req, res, next) => {
   Comment.find({})
     .then((comments) => res.json(comments))
     .catch(next);
 });
+// show a specific comment
 projectRouter.get("/comments/:id", (req, res, next) => {
   Comment.findById(req.params.id)
     .then((comments) => res.json(comments))
     .catch(next);
 });
+
 // posting comment to a project page
-projectRouter.post("/usercomment/:id", (req, res) => {
+projectRouter.post("/addcomment/:id", (req, res) => {
   const id = req.params.id;
   const newComment = req.body;
   newComment.project = id;
@@ -82,32 +86,32 @@ projectRouter.post("/usercomment/:id", (req, res) => {
     })
     .catch(console.error);
 });
-//deleting comment on a project page
+
+//deleting a comment on a project page
 projectRouter.delete("/deletecomment/:id", (req, res) => {
   const id = req.params.id;
   Comment.findByIdAndRemove({ _id: id })
-    .then((deletedComment) => {
+    .then((deletedcomment) => {
       Project.findByIdAndUpdate(
-        deletedComment.project,
+        deletedcomment.project,
         {
           $pull: {
-            comments: deletedComment._id,
+            comments: deletedcomment._id,
           },
         },
         { new: true, useFindAndModify: false }
       ).then((project) => res.json(project));
     })
     .catch(console.error);
-  // res.redirect("/");
-  // Project.findByIdAndUpdate({ _id: id })
-  //   .then((project) => res.json(project))
-  //   .catch(console.error);
 });
+
 //posting images in a project gallery
 projectRouter.post("/addphoto/:id", (req, res) => {
   const id = req.params.id;
+  const newImage = req.body;
+  newImage.project = id;
   Image.create(req.body)
-    .then((image) => {
+    .then((newimage) => {
       Projects.findByIdAndUpdate(
         { _id: id },
         { $push: { gallery: image._id } },
@@ -118,9 +122,29 @@ projectRouter.post("/addphoto/:id", (req, res) => {
     })
     .catch(console.error);
 });
+
+// deleting an image from a project's gallery
+projectRouter.delete("/deletephoto/:id", (req, res) => {
+  const id = req.params.id;
+  Image.findByIdAndRemove({ _id: id })
+    .then((deletedphoto) => {
+      Project.findByIdAndUpdate(
+        deletedphoto.project,
+        {
+          $pull: {
+            gallery: deletedphoto._id,
+          },
+        },
+        { new: true, useFindAndModify: false }
+      ).then((project) => res.json(project));
+    })
+    .catch(console.error);
+});
+
 // retrieve specific project
 projectRouter.get("/:id", (req, res) => {
   const id = req.params.id;
   Projects.findById({ _id: id }).then((project) => res.send(project));
 });
+
 module.exports = projectRouter;
