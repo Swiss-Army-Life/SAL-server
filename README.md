@@ -1,2 +1,0 @@
-# SAL-server
-Server Side
