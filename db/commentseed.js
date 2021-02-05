@@ -10,3 +10,4 @@ Model.deleteMany({})
   .finally(() => {
     process.exit();
   });
+//test
