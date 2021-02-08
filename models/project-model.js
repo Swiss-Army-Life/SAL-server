@@ -8,9 +8,7 @@ const ProjectSchema = mongoose.Schema({
   category: String,
   materials: Array,
   budget: String,
-  video: {
-    href: String,
-  },
+  video: String,
   gallery: [
     {
       type: mongoose.Schema.Types.ObjectId,
