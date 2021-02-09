@@ -23,7 +23,7 @@ projectRouter.get("/search/:search", (req, res) => {
       const filteredprojects = project.filter((project) =>
         project.description.includes(search)
       );
-      res.send(filteredprojects);
+      return res.json(filteredprojects);
     })
     .catch(console.error);
 });
